@@ -1,6 +1,13 @@
 <?php
 include("db.php");
 ?>
+<?php 
+
+if(!isset($_COOKIE['flag'])){
+    header('location: Login.php');
+}
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,10 +27,11 @@ include("db.php");
                     <form method="get" action= "" enctype="">
                             <ul >
                             <li> <a href="Profile.php">Profile </a></li><br>
-                             <li> <a href="FlatService.php">Flat Services></a></li><br>
-                             <li> <a href="GarageService.php">Garage Services ></a></li><br>  
-                             <li> <a href="MoverService.php">Movers Services ></a></li><br>
-                             <li> <a href="HouseMaid.php">House Maid Services ></a></li><br>
+                            <li> <a href="Dashboard.php">Home </a></li><br>
+                            <li> <a href="FlatService.php">Flat Services></a></li><br>
+                            <li> <a href="GarageService.php">Garage Services ></a></li><br>  
+                            <li> <a href="MoverService.php">Movers Services ></a></li><br>
+                            <li> <a href="HouseMaid.php">House Maid Services ></a></li><br>
                             </ul>
                     
                          </form>
@@ -63,5 +71,7 @@ if(isset($_POST['submit']))
 
     $query = "INSERT INTO housemaid ( Location, Salary) VALUES ( '$Location', '$Salary')";
     $data = mysqli_query($conn, $query);
+    
+    header('location: EditHouseMaid.php');
 }
 ?>

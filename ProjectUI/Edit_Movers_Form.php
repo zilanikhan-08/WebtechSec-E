@@ -1,12 +1,18 @@
-<?php
-include("db.php");
-?>
 <?php 
 
     if(!isset($_COOKIE['flag'])){
         header('location: Login.php');
     }
 
+?>
+<?php
+include("db.php");
+$id = $_GET['id'];
+
+$query = "SELECT * FROM moverservice WHERE S_ID = '$id'"; 
+    $data = mysqli_query($conn,$query);
+    $total = mysqli_num_rows($data);
+    $info = mysqli_fetch_assoc($data);
 ?>
 <html>
     <body>
@@ -21,24 +27,21 @@ include("db.php");
                         <ul>
                             <li> <a href="Profile.php">Profile </a></li><br>
                             <li> <a href="Dashboard.php">Home </a></li><br>
-                            <li> <a href="FlatService.php">Flat Services></a></li><br>
-                            <li> <a href="GarageService.php">Garage Services ></a></li><br>  
-                            <li> <a href="MoverService.php">Movers Services ></a></li><br>
-                            <li> <a href="HouseMaid.php">House Maid Services ></a></li><br>
+                            <li> <a href="EditServices.php">Edit Services></a></li><br>
+                            <li> <a href="EditMoverService.php">Edit Movers></a></li><br>
                         </ul>
                     </form>
                 </td>
                 <td colspan="6">
                     <form method="POST" action="">
                         <fieldset>
-                            <legend><b>Add New Flat Service</b></legend>
-                            ServiceID: <input type="text" name="ServiceID" value="" /> <br>
-                            Service Type: Flat <br>
-                            Location: <input type="text" name="Location" value="" /> <br>
-                            Flat Size: <input type="text" name="FlatSize" value="" /> <br>
-                            Rent: <input type="text" name="Rent" value="" /> <br>
+                            <legend><b>Edit Movers Service</b></legend>
+                            ServiceID: <input type="text" name="ServiceID" value=" <?php echo $info['S_ID']?> " /> <br>
+                            Service Type: Movers <br>
+                            Location: <input type="text" name="Location" value="<?php echo $info['Location']?>" /> <br>
+                            Salary: <input type="text" name="Salary" value="<?php echo $info['Salary']?>" /> <br>
                             Duration: <input type="text" name="Duration" value="" /> <br><hr>               
-                            <input type="submit" name="submit" value="Add" />
+                            <input type="submit" name="submit" value="Edit" />
                         </fieldset>
                     </form>
                 </td>
@@ -56,13 +59,11 @@ include("db.php");
 if(isset($_POST['submit']))
 {
     $ServiceID = $_POST['ServiceID'];
-    $Location = $_POST['Location'];  
-    $FlatSize = $_POST['FlatSize'];
-    $Rent = $_POST['Rent'];
+    $Location = $_POST['Location'];
+    $Salary = $_POST['Salary'];
 
-    $query = "INSERT INTO FlatService ( Location, FlatSize, Rent) VALUES ('$Location', '$FlatSize', '$Rent')";
+    $query = "UPDATE moverservice SET `Location`='$Location',`Salary`='$Salary' WHERE `S_ID`='$ServiceID'";
     $data = mysqli_query($conn, $query);
-
-    header('location: EditFlat.php');
+    header('location: EditMoverService.php');
 }
 ?>
