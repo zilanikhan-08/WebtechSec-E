@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HTML</title>
+</head>
+<body>
+        
+    <table border="1" align="center" cellpadding="10" width="500px">
+        <tr><td colspan="3" align="center"><b>PERSON PROFILE</b></td></tr>
+        <tr>
+            <td> Name</td>
+            <td> <input type="text" id="nameInput" name="name" value="" /></td>
+            <td width="10px"> </td>
+        </tr>
+        <tr>
+            <td> Email</td>
+            <td> <input type="text" id="emailInput" name="email" value="" /></td>
+            <td> </td>
+        </tr>
+        <tr>
+            <td> Gender</td>
+            <td> 
+                <input type="radio" id="maleRadio" name="genderOption" value="male" /> Male
+                <input type="radio" id="femaleRadio" name="genderOption" value="female" /> Female
+                <input type="radio" id="otherRadio" name="genderOption" value="other" /> Other
+            </td>
+            <td> </td>
+        </tr>
+        <tr>
+            <td> Date Of Birth</td>
+            <td><input type="text" id="dobDayInput" name="day" value="" size="2" /> / 
+                <input type="text" id="dobMonthInput" name="month" value="" size="2" /> /
+                <input type="text" id="dobYearInput" name="year" value="" size="4"/>(dd/mm/yyyy)</td>
+            
+            <td> </td>
+        </tr>
+        <tr>
+            <td> BLood Group</td>
+            <td> 
+                <select id="bloodGroupSelect" name="bloodGroup"> 
+                    <option value="">Select Blood Group</option>
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                </select>
+            </td>
+            <td> </td>
+        </tr>
+        <tr>
+            <td> Degree</td>
+            <td> 
+                <input type="checkbox" id="sscCheckbox" name="degree" value="SSC" /> SSC
+                <input type="checkbox" id="hscCheckbox" name="degree" value="HSC" /> HSC
+                <input type="checkbox" id="bscCheckbox" name="degree" value="BSc" /> BSc
+                <input type="checkbox" id="mscCheckbox" name="degree" value="MSc" /> MSc
+            </td>
+            <td> </td>
+        </tr>
+        <tr>
+            <td> Photo</td>
+            <td colspan="2"> <input type="file" id="photoInput" name="photo" value="Browse..." /></td>
+        </tr>
+        <tr>
+            <td colspan="3" align="center"></td>
+        </tr>
+        <tr>
+            <td colspan="3" align="right"><b> <input type="submit" name="submit" value="Submit" onclick="return validateForm();" />
+                <input type="reset" name="reset" value="Reset" onclick="location.reload()" />
+            </b></td> 
+            
+        </tr>
+    </table>
+
+    <script>
+        // Function to validate the form
+        function validateForm() {
+            // Validate Name
+            var name = document.getElementById("nameInput").value.trim();
+            if (name === "") {
+                alert("Name cannot be empty");
+                return false;
+            }
+            var firstLetter = name.charAt(0);
+            if (!isLetter(firstLetter)) {
+                alert("Name must start with a letter");
+                return false;
+            }
+            var words = name.split(/\s+/);
+            if (words.length < 2) {
+                alert("Name must contain at least two words");
+                return false;
+            }
+            for (var i = 0; i < name.length; i++) {
+                var currentChar = name.charAt(i);
+                if (!(isLetter(currentChar) || currentChar === '.' || currentChar === '-' || currentChar === ' ')) {
+                    alert("Name can contain only letters, dots, dashes, and spaces");
+                    return false;
+                }
+            }
+
+            // Validate Gender
+            var maleRadio = document.getElementById("maleRadio").checked;
+            var femaleRadio = document.getElementById("femaleRadio").checked;
+            var otherRadio = document.getElementById("otherRadio").checked;
+            if (!maleRadio && !femaleRadio && !otherRadio) {
+                alert("Please select your gender");
+                return false;
+            }
+
+            // Validate Email
+            var email = document.getElementById("emailInput").value.trim();
+            if (email === "") {
+                alert("Email cannot be empty");
+                return false;
+            }
+            if (email.indexOf('@') === -1 || email.indexOf('.') === -1 || email.indexOf('@') >= email.lastIndexOf('.')) {
+                alert("Please enter a valid email address");
+                return false;
+            }
+
+            // Validate Degree
+            var sscChecked = document.getElementById("sscCheckbox").checked;
+            var hscChecked = document.getElementById("hscCheckbox").checked;
+            var bscChecked = document.getElementById("bscCheckbox").checked;
+            var mscChecked = document.getElementById("mscCheckbox").checked;
+            if (!(sscChecked || hscChecked || bscChecked || mscChecked)) {
+                alert("Please select at least one degree");
+                return false;
+            }
+
+            // Validate Date of Birth
+            var day = parseInt(document.getElementById("dobDayInput").value.trim());
+            var month = parseInt(document.getElementById("dobMonthInput").value.trim());
+            var year = parseInt(document.getElementById("dobYearInput").value.trim());
+
+            // Validation rules
+            if (isNaN(day) || isNaN(month) || isNaN(year)) {
+                alert("Date of birth cannot be empty");
+                return false;
+            }
+
+            if (day < 1 || day > 31 || month < 1 || month > 12 || year < 1900 || year > 2016) {
+                alert("Please enter a valid date of birth (dd: 1-31, mm: 1-12, yyyy: 1900-2016)");
+                return false;
+            }
+                       
+
+            // Validate Blood Group
+            var bloodGroup = document.getElementById("bloodGroupSelect").value;
+            if (bloodGroup === "") {
+                alert("Please select a blood group");
+                return false;
+            }
+
+            // Validate Photo
+            var photo = document.getElementById("photoInput").value.trim();
+            if (photo === "") {
+                alert("Photo cannot be empty");
+                return false;
+            }
+            
+            // If all validation passes, you can submit the form
+            else
+            {
+                alert("Form submitted successfully!");
+                return true;              
+            }
+        }
+
+        // Function to check if a character is a letter
+        function isLetter(char) {
+            return /[A-Za-z]/.test(char);
+        }
+    </script>
+</body>
+</html>
